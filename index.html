@@ -166,7 +166,7 @@
     </div>
   </footer>
 
-  <script>
+<script>
 const menuBtn = document.getElementById('menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 menuBtn.addEventListener('click', () => {
@@ -182,26 +182,26 @@ form.addEventListener('submit', async (e) => {
   const formData = Object.fromEntries(new FormData(form).entries());
 
   const payload = {
-    name: formData.name, // ✅ correct
+    name: formData.name,
     email: formData.email,
     account_type: formData.account_type,
     deposit: parseFloat(formData.deposit)
   };
 
   try {
-    const response = await fetch("https://bankx-project-based-on-fastapi-3.onrender.com"), {
+    const response = await fetch("https://bankx-project-based-on-fastapi-3.onrender.com/createUser", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
     if (response.ok) {
-      msg.textContent = "✅ Account created successfully!";
+      const data = await response.json();
+      msg.textContent = `✅ Account created successfully for ${data.name}!`;
       msg.className = "text-green-600 text-center mt-4";
       form.reset();
     } else {
       const errorData = await response.json();
-      console.error("Error:", errorData);
       msg.textContent = "❌ Failed to create account: " + errorData.detail;
       msg.className = "text-red-600 text-center mt-4";
     }
@@ -212,7 +212,5 @@ form.addEventListener('submit', async (e) => {
   }
 });
 </script>
-
-
 </body>
 </html>
